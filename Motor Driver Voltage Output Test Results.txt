@@ -1,0 +1,35 @@
+*The function setSpeeds(M1spd, M2spd) accepts an input of -400 to 400, -400 being 100% PWM in reverse, 0 being 0% PWM, and 400 being 100% PWM forward.  This test measures the motor driver output voltage from 0 to 400 in increments of 50.
+
+0:	0V
+50:	1.14V
+100:	2.27V
+150:	3.4V
+200:	4.54V
+250:	5.67V
+300:	6.8V
+350:	7.93V
+400:	9.05V
+
+These results show that 100% PWM with a 9V power supply far exceeds the rated maximum motor voltage of 6V.  Continued exposure to such a high voltage will damage the motor.  These results also indicate that the motor driver output voltage can match the power supply voltage.  This was not indicated anywhere on the motor driver's datasheet but is very useful information.  
+
+The results show that a 6V motor driver output voltage occurs somewhere between 250 and 300.  The next test will narrow down the PWM range and will use smaller increments.  
+
+250:	5.67V
+260:	5.89V
+270:	6.12V
+280:	6.35V
+290:	6.58V
+300:	6.8V
+
+Narrowing down the range to 260-270, in increments of two...
+
+260:	5.89V
+262:	5.94V
+264:	5.98V
+266:	6.03V
+268:	6.07V
+270:	6.12V
+
+These results show that a value of 264 will achieve the desired 6V output voltage.  It may be wise to set the maximum lower than 264 to play it safe.  
+
+!!!With the motor driver powering the arduino, the motor driver output voltage was measured at 5.55V when using 264.  This makes sense, as the motor driver and arduino were powered separately in previous tests.  But it now provides a problem: I am currently unable to test the motor driver output while it powers the arduino, as I have no easy way of knowing the function input in this configuration.  I cannot power the arduino from both my computer and the motor driver at the same time, or I will blow up both of them.  A separate screen is necessary, and I do not have one.  
